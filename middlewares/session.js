@@ -1,4 +1,4 @@
-import sessions from 'express-session'
+import sessions from 'cookie-session'
 
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;
