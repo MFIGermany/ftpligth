@@ -30,7 +30,7 @@ export class FtpController {
       res.status(200).json({ result: 1, message: 'Conexión establecida con éxito' })
     }
     else{
-      res.status(200).json({ result: 0, error: 'Credenciales incorrectas', log: result})
+      res.status(200).json({ result: 0, error: 'Credenciales incorrectas'})
     }
   }
 

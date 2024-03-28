@@ -26,6 +26,8 @@ export const createApp = () => {
   app.set('views', path.join(__dirname, './static/views'))
   app.set("view engine", "ejs")
 
+  app.enable('trust proxy')
+
   app.use(express.urlencoded({extended: false}))
 
   app.use('/ftp', createFtpRouter())
