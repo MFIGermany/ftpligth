@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content=""/>
+		<meta name="keywords" content="" />
+		<title></title>
+		<link href="img/favico.png" rel="shortcut icon" type="image/ico" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="assets/bootstrap/css/bootstrap-icons.css" rel="stylesheet" type="text/css" />
+		<link href="css/alertify.min.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/alertify.min.js"></script>
+	</head>
+	<body class="body-login">
+		<div class="wrapper-login">
+			<div class="cont">
+				<div class="registrar">
+					<div class="table-m-sep-title-login">
+						<span class="icon-login"></span>
+						<h1><strong id="tlogin">Iniciar Sesión</strong></h1>
+					</div>
+					<div class="caja">
+						<div class="row">
+							<form action="ftp/login" method="post">
+								<div class="form-group">
+									<label id="tftp" for="server" class="col-lg-4 col-sm-4 control-label ipmargin">Servidor FTP</label>
+									<div class="col-lg-5 ipmargin">
+										<input type="text" class="form-control" id="server" name="server" required/>
+									</div>
+									<div class="col-lg-3">
+										<input type="text" class="form-control" id="port" name="port" value="21" required/>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="form-group">
+									<label id="tuser" for="username" class="col-lg-4 col-sm-4 control-label">Usuario</label>
+									<div class="col-lg-8">
+										<input type="text" class="form-control" id="username" name="username" required/>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="form-group">
+									<label id="tpassword" for="password" class="col-lg-4 col-sm-4 control-label">Contraseña</label>
+									<div class="col-lg-8">
+										<input type="password" class="form-control" id="password" name="password" required/>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<input type="button" id="taccess" value="Acceder" class="btn btn-success btn-login"/>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="error">
+					<p id='terrorlogin' style="display:none"></p>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function(){
+				$("#taccess").click(function(e){
+					e.preventDefault();
+					var server = $("#server").val();
+					var port = $("#port").val();
+					var username = $("#username").val();
+					var password = $("#password").val();
+
+					actionData = {'server': server, 'port': port, 'username': username, 'password': password}
+					$.ajax({
+						type: "POST",
+						dataType: 'json',
+						data: actionData,
+						url: "ftp/login",
+						success: function(response){
+							//$("#mask").css({"display":"none"});
+							var d = response.result;
+							if(d==1){
+								alertify.success(response.message);
+								setTimeout(function(){
+									window.location.href = "ftp/panel";
+								}, 300);
+							}else{
+								$("#terrorlogin").css({'display': 'block'});
+								$("#terrorlogin").text(response.error);
+							}
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

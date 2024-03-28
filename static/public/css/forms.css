@@ -1,0 +1,19 @@
+@charset "utf-8";
+input, textarea, select, label { font-size:14px; font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;}
+label { font-style:italic; font-size:14px; padding:5px 0 1px !important; color:#282828;}
+input { border:1px solid #CDCCCC; width:133px; padding:5px; color: #666!important;}
+input.check { height:13px!important; width:15px!important; border:none;}
+input.boton {text-shadow:#fff 1px 1px 1px; border:1px solid #D1D0D0; height:30px; width:82px;  font-weight:bold; font-size:14px; cursor:pointer; background:url(../img/bg-button.gif) 0 0 repeat-x; }
+input.boton:link, input.boton:visited { float:right; height:30px; width:82px; margin-top:2px;  background:url(../img/table-m-sep-title.gif) 0 0 repeat-x; border:1px solid #D1D0D0; }
+textarea {border:1px solid #CDCCCC; width:500px; padding:5px; color: #666!important;}
+select {  padding:4px 5px; margin-right:5px; border:1px solid #CDCCCC;  color: #666!important; }
+select:option { color:#666;}
+div.formblock {width:452px; _width:430px; height:403px; background:url(../img/bg_mform.gif) 0 0 no-repeat; float:left; margin-left:-5px; padding-left:15px;}
+div.formblock input {width:257px; height:17px; border:1px solid #B5B4B4; background-color:#EFEFEF; padding:2px 5px 0 5px;}
+div.formblock textarea {width:402px; height:80px; border:1px solid #B5B4B4; background-color:#EFEFEF; padding:5px; }
+div.formblock select {width:269px; height:22px; border:1px solid #B5B4B4; background-color:#EFEFEF;}
+div.formblock label {font-size:14px; display:block;}/* sin block y width para posicion horizontal*/
+div.formblock li {width:430px; margin-bottom:10px;}
+div.fileinputs {position: relative;}
+div.fakefile {top: 0px;left: 0px;z-index: 1;}
+input.file {position: relative;text-align: right;-moz-opacity:0 ;filter:alpha(opacity: 0);opacity: 0;z-index: 2;}

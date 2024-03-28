@@ -1,0 +1,25 @@
+.body-500 {
+    background: #18d4cb;
+    color: #fff;
+}
+.error-wrapper {
+    text-align: center;
+    margin-top: 10%;
+}
+.error-wrapper .icon-500 {
+    background: url(../img/500_icon.png) no-repeat;
+    width: 289px;
+    height: 274px;
+    display: inline-block;
+    margin-left: 55px;
+}
+
+.error-wrapper p a {
+	color:#395697 !important;
+    font-size: 18px;
+    font-weight: 300;
+}
+.error-wrapper p a:hover {
+    color: red !important;
+}
+

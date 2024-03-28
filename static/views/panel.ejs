@@ -1,0 +1,450 @@
+<%- include ('common/head'); -%>
+<body>
+	<div id="mask"><div class="preloader"></div></div>
+	<header class="header-frontend">
+		<div class="navbar navbar-default navbar-static-top">
+			<div class="container nav-ml">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="bi bi-list"></span>
+				</button>
+				<div class="navbar-header">
+					<a href="/ftp/panel">
+						<div class="logo">
+							<img src="<%= data.baseUrl %>/img/logo.png" alt="FTPLight" width="200" height="80"/>
+						</div>
+					</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="bi-person bi-new"></i>
+								<span class="username"><%= data.username %></span>
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu extended logout">
+								<div class="log-arrow-up"></div>
+								<li><a href="logout"><i class="bi bi-power bi-new"></i> Log Out</a></li>
+							</ul>
+						</li>
+					</ul>				
+				</div>			
+			</div>
+		</div>
+	</header>	
+	<div class="clear"></div>
+	<main>
+		<div class="wrapper">
+			<div class="content full_content" id="content">
+				<table border="1" style="background-color:transparent !important;border:none !important;margin-top:-20px;" cellpadding="0" cellspacing="0" width="99%" height="90%">
+					<tbody>
+						<tr>
+							<td valign="middle" align="center" style="border: none !important;">
+								<table border="0" id="filemanager" width="1172">
+									<tbody>
+										<tr>
+											<td align="left" valign="top" colspan="2" class="header-menu">
+												<div class="table-m-sep-title">
+													<div class="table-m-sep-up">
+														<span class="refresh" data-title="Actualizar" onclick="execute_action('refresh');"></span>										
+														<form id="frm_dir" action="<%= data.baseUrl %>/ftp/panel" method="post">
+															<input type="hidden" name="function" value="dir">
+															<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+														</form>
+													</div>
+													<div class="table-m-sep-tools">
+														<span class="create" data-title="Crear Directorio" onclick="execute_action('create');"></span>
+														<form id="frm_mkdir" name="directory_create" action="<%= data.baseUrl %>/ftp/panel" method="post">
+															<input type="hidden" name="function" value="mkdir">
+															<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+															<input type="hidden" name="new_dir" value="">
+															<input type="hidden" id="ttitledir" value="Crear Directorio">
+															<input type="hidden" id="tname" value="Nombre">
+															<input type="hidden" id="tempty" value="Este campo es obligatorio">
+														</form>
+														
+														<span class="update" data-title="Renombrar Directorio" onclick="execute_action('update');"></span>
+														<input type="hidden" id="ttitleupddir" value="Renombrar Directorio">
+														<input type="hidden" id="tconfirmupddir" value="Está seguro que desea modificar el nombre al siguiente directorio:">
+														
+														<span class="delete" data-title="Eliminar Directorio" onclick="execute_action('delete');"></span>
+														<form id="frm_dropdir" name="directory_drop" action="<%= data.baseUrl %>/ftp/panel" method="post">
+															<input type="hidden" name="function" value="dropdir">
+															<input type="hidden" name="select_directory" value="">
+															<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+															<input type="hidden" id="terrordir" value="Por favor, seleccione un directorio.">
+															<input type="hidden" id="tconfirmdir" value="Está seguro que desea eliminar permanentemente el siguiente directorio:">
+															<input type="hidden" id="tcancel" value="Operación cancelada">
+															<input type="hidden" id="tsuccess" value="Operación satisfactoria">
+														</form>
+													</div>    
+												</div>
+											</td>
+											<td align="left" valign="top" colspan="2" class="header-menu">
+												<div class="table-m-sep-title">
+													<div class="table-m-sep-up">
+														<form id="frm_put"  name="files_put" action="<%= data.baseUrl %>/ftp/upload" method="post" enctype="multipart/form-data">
+															<input type="hidden" name="function" value="put">
+															<input type="hidden" name="max_file_size" value="31000000">
+															<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+															<input type="hidden" id="tuploads" value="Por favor, seleccione ficheros para subir.">
+															<input type="file" id="userfile" name="userfile[]" multiple />
+														</form>
+														<span class="upload" data-title="Subir Archivos" onclick="execute_action('upload');"></span>
+													</div>
+													<div class="table-m-sep-tools">
+														<span class="download" data-title="Descargar Archivo" onclick="execute_action('download');"></span>
+														
+														<span class="rename" data-title="Renombrar Archivo" onclick="execute_action('rename');"></span>
+														<form id="frm_upd"  name="file_rename" action="<%= data.baseUrl %>/ftp/panel" method="post">
+															<input type="hidden" name="function" value="upd">
+															<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+															<input type="hidden" id="terrorfile" value="Por favor, seleccione un archivo.">
+															<input type="hidden" id="tconfirmupd" value="Está seguro que desea modificar el nombre al siguiente archivo:">
+															<input type="hidden" name="new_file" value="">
+															<input type="hidden" name="old_file" value="">
+															<input type="hidden" id="ttitleupdfile" value="Renombrar Archivo">
+														</form>
+														
+														<span class="remove" data-title="Eliminar Archivo" onclick="execute_action('remove');"></span>
+														<form id="frm_drop"  name="file_drop" action="<%= data.baseUrl %>/ftp/panel" method="post">
+															<input type="hidden" name="function" value="drop">
+															<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+															<input type="hidden" id="terrorfile" value="Por favor, seleccione un archivo.">
+															<input type="hidden" id="tconfirmfile" value="Está seguro que desea eliminar permanentemente el siguiente archivo:">
+															<input type="hidden" name="select_file" value="">
+														</form>
+													</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td align="left" valign="top" colspan="2" class="header" style="border: 1px solid #D1D0D0;">
+												<span class="clipper">
+													<img src="<%= data.baseUrl %>/img/fldr.gif" width="16" height="14" align="top" border="0">&nbsp;
+													<%= (data.list_directories) ? data.list_directories.length : 0 %> <span id='tfolders'>Carpetas</span>
+													<select class="dir_sel" id="switcher" name="switcher" onchange="switch_dir(this.value);">
+														<% if(data.arr_dirs){ %>
+															<% for(var i = 0; i < data.arr_dirs.length; i++){  %>
+																<option value="<%= data.arr_dirs[i] %>"><%= data.arr_dirs[i] %></option>
+															<% } %>
+														<% } %>
+													</select>							
+												</span>
+											</td>
+											<td align="left" valign="top" colspan="2" class="header" style="border: 1px solid #D1D0D0;">
+												<img src="<%= data.baseUrl %>/img/file.gif" width="14" height="14" align="top" border="0">&nbsp;
+												<%= (data.list_files) ? data.list_files.length : 0 %> <span id='tfiles'>Ficheros</span>
+											</td>
+										</tr>
+										<tr>
+											<td align="left" valign="top" colspan="2" style="vertical-align:top !important;width: 49%;border: 1px solid #D1D0D0;">
+												<form id="frm_cd" name="directory_select" action="<%= data.baseUrl %>/ftp/panel" method="post">
+													<input type="hidden" name="function" value="cd">
+													<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+													<input type="hidden" id="texists" value="Ya existe un directorio con ese nombre.">
+													<select name="select_directory" ondblclick="javascript: if(this.selectedIndex!=-1) { enter_dir(this.options[this.selectedIndex].value); }" class="selector" style="width: 572px;" size="25">
+														<option value="..">..</option>
+														<% if(data.list_directories){ %>
+															<% for(var i = 0; i < data.list_directories.length; i++){  %>
+																<option value="<%= data.list_directories[i] %>"><%= data.list_directories[i] %></option>
+															<% } %>
+														<% } %>
+													</select>
+												</form>
+												<form id="frm_updir" name="directory_up" action="<%= data.baseUrl %>/ftp/panel" method="post">
+													<input type="hidden" name="function" value="dir">
+													<input type="hidden" name="ftp_dir" value="<%= data.cdup %>">
+												</form>
+											</td>
+											<td align="left" valign="top" colspan="2" style="vertical-align:top !important;border: 1px solid #D1D0D0;">
+												<form id="frm_get" action="<%= data.baseUrl %>/ftp/panel" method="post" name="file_select">
+													<input type="hidden" name="function" value="get">
+													<input type="hidden" name="ftp_dir" value="<%= data.ftp_dir %>">
+													<div id="files_list">
+														<select name="select_file" ondblclick="javascript: if(this.selectedIndex!=-1) { download_file(this.options[this.selectedIndex].value); }" class="selector" style="width: 600px;" size="25">
+															<% if(data.list_files){ %>
+																<% for(var i = 0; i < data.list_files.length; i++){  %>
+																	<option value="<%= data.list_files[i] %>"><%= data.list_files[i] %></option>
+																<% } %>
+															<% } %>
+														</select>
+													</div>
+												</form>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="clear"></div>			
+		</div>
+	</main>
+	<div class="footer">
+		<p class="footer-text">© 2024 FTP LIGTH</p>
+		<div class="clear"></div>
+	</div>
+	<script type="text/javascript" src="<%= data.baseUrl %>/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+		function execute_action(acc){
+			switch(acc){
+				case 'refresh':
+					$('#mask').css({'display':'block', 'height': $(document).height()});
+					document.forms.frm_dir.submit();
+				break;
+				case 'create':
+					var select = document.forms.directory_select.select_directory;				
+					create_dir(select);
+				break;
+				case 'update':
+					var value = document.forms.directory_select.select_directory.value;
+					var errordir = $("#terrordir").val();
+					var confirmdir = $("#tconfirmupddir").val();				
+					finish_form(value, value, errordir, confirmdir, 3);
+				break;
+				case 'delete':
+					var value = document.forms.directory_select.select_directory.value;
+					var nach = document.forms.directory_drop.select_directory;
+					var errordir = $("#terrordir").val();
+					var confirmdir = $("#tconfirmdir").val();				
+					finish_form(value, nach, errordir, confirmdir);
+				break;
+				case 'upload':
+					var files = document.forms.files_put.userfile.value;				
+					upload_files(files);
+				break;
+				case 'download':
+					var value = document.forms.file_select.select_file.value;				
+					download_file(value);
+				break;
+				case 'rename':
+					var value = document.forms.file_select.select_file.value;
+					var errordir = $("#terrorfile").val();
+					var confirmdir = $("#tconfirmupd").val();				
+					finish_form(value, value, errordir, confirmdir, 2);
+				break;
+				case 'remove':
+					var value = document.forms.file_select.select_file.value;
+					var nach = document.forms.file_drop.select_file;
+					var errordir = $("#terrorfile").val();
+					var confirmdir = $("#tconfirmfile").val();				
+					finish_form(value, nach, errordir, confirmdir, 1);
+				break;
+			}
+		}
+		
+		function upload_files(files){
+			if(!check_file(files)){
+				var uploads = $("#tuploads").val();
+				alertify.error(uploads);
+			}
+			else{
+				$('#mask').css({'display':'block', 'height': $(document).height()});
+				document.forms.files_put.submit();
+			}	
+		}
+		
+		function create_dir(searchBounds){
+			var title = $("#ttitledir").val();
+			var label = $("#tname").val();
+			var cancel = $("#tcancel").val();
+			alertify.prompt(label, '', 
+				function(evt, value){
+					if(value.trim() == ''){
+						var empty = $("#tempty").val();
+						alertify.error(empty);
+						return false;
+					}
+					var find = false;
+					
+					var exists = $("#texists").val();
+					for(var i = 0; i < searchBounds.length; i++){
+						if(searchBounds[i].value.toLowerCase() == value.toLowerCase()){
+							alertify.error(exists);
+							find = true;
+							return false;
+							break;
+						}
+					}
+					setTimeout(() => {
+						if(!find){
+							$('#mask').css({'display':'block', 'height': $(document).height()});
+							document.forms.directory_create.new_dir.value = value;
+							document.forms.directory_create.submit();
+						}
+					}, "100");
+				}, 
+				function() { 
+					var cancel = $("#tcancel").val();
+					alertify.error(cancel);
+				}
+			).setHeader(title);
+		}
+		
+		function check_file(fname){		
+			fname = fname.replace(/^\s+|\s+$/g, '');
+			if (fname != ""){
+				return true;
+			}
+			return false;
+		}
+		
+		function finish_form(wert, nach, errordir, confirmdir, opt = 0){
+			if (errordir == null || errordir.length == 0){ 
+				errordir = false; 
+			}
+			
+			if (confirmdir == null || confirmdir.length == 0){
+				confirmdir = false; 
+			} 
+			else { 
+				confirmdir += ' ' + wert + '?'; 
+			}
+	
+			if (wert != '' && wert != '..' && wert != '.'){
+				nach.value = wert;
+				
+				if (confirmdir){
+					if(opt == 3){
+						var old_file = wert;
+						var label = $("#tname").val();
+						var cancel = $("#tcancel").val();
+						var title = $("#ttitleupddir").val();
+						var searchBounds = document.forms.directory_select.select_directory;
+						alertify.prompt(label, wert, 
+							function(evt, value){
+								if(value.trim() == ''){
+									var empty = $("#tempty").val();
+									alertify.error(empty);
+									return false;
+								}
+								var find = false;
+								
+								var exists = $("#texists").val();
+								for(var i = 0; i < searchBounds.length; i++){
+									if(i !== searchBounds.selectedIndex){
+										if(searchBounds[i].value.toLowerCase() == value.toLowerCase()){
+											alertify.error(exists);
+											return false;
+											find = true;
+											break;
+										}
+									}
+								}
+								setTimeout(() => {
+									if(!find){
+										$('#mask').css({'display':'block', 'height': $(document).height()});
+										document.forms.file_rename.new_file.value = value;
+										document.forms.file_rename.old_file.value = old_file;
+										document.forms.file_rename.submit();
+									}
+								}, "100");
+							}, 
+							function() { 
+								var cancel = $("#tcancel").val();
+								alertify.error(cancel);
+							}
+						).setHeader(title);
+					}
+					else if(opt == 2){
+						var old_file = wert;
+						var title = $("#ttitleupdfile").val();
+						var label = $("#tname").val();
+						var cancel = $("#tcancel").val();
+						var searchBounds = document.forms.file_select.select_file;
+						alertify.prompt(label, wert, 
+							function(evt, value){
+								if(value.trim() == ''){
+									var empty = $("#tempty").val();
+									alertify.error(empty);
+									return false;
+								}
+								var find = false;
+								
+								var exists = $("#texists").val();
+								for(var i = 0; i < searchBounds.length; i++){
+									if(i !== searchBounds.selectedIndex){
+										if(searchBounds[i].value.toLowerCase() == value.toLowerCase()){
+											alertify.error(exists);
+											return false;
+											find = true;
+											break;
+										}
+									}
+								}
+								setTimeout(() => {
+									if(!find){
+										$('#mask').css({'display':'block', 'height': $(document).height()});
+										document.forms.file_rename.new_file.value = value;
+										document.forms.file_rename.old_file.value = old_file;
+										document.forms.file_rename.submit();
+									}
+								}, "100");
+							}, 
+							function() { 
+								var cancel = $("#tcancel").val();
+								alertify.error(cancel);
+							}
+						).setHeader(title);
+					}
+					else{
+						alertify.confirm('Confirm', confirmdir, function(){
+							$('#mask').css({'display':'block', 'height': $(document).height()});
+							if(opt == 1)
+								document.forms.file_drop.submit();						
+							else
+								document.forms.directory_drop.submit();
+						},
+						function(){ 
+							var cancel = $("#tcancel").val();
+							alertify.error(cancel);
+						});
+					}
+				}
+				
+				return true;
+			}
+			else {
+				if (errordir) {
+					alertify.error(errordir);
+				}
+			}
+	
+			return false;
+		}
+	
+		function switch_dir(dir){
+			if (dir != "" && dir != null){
+				$('#mask').css({'display':'block', 'height': $(document).height()});
+				document.forms.directory_select.ftp_dir.value = dir;
+				document.forms.directory_select.submit();
+			}
+		}
+		
+		function enter_dir(clickObj){
+			if (clickObj != ""){
+				$('#mask').css({'display':'block', 'height': $(document).height()});
+				if (clickObj != ".."){
+					document.forms.directory_select.submit(); 
+				}
+				else{ 
+					document.forms.directory_up.submit();
+				}
+			}
+		}
+		
+		function download_file(clickObj){
+			if (clickObj != ""){
+				document.forms.file_select.submit();
+			}
+			else{
+				var errordir = $("#terrorfile").val();
+				alertify.error(errordir);
+			}
+		}
+	</script>
+</body>
+</html>
