@@ -14,7 +14,7 @@ export class FtpController {
     if (!req.session.logged_in)
       res.render('login')
     else
-      res.render('panel')
+      res.redirect('ftp/panel')
   }
 
   login = async (req, res) => {
@@ -165,7 +165,8 @@ export class FtpController {
     // Cerrar conexion FTP
     this.ftpClient.disconnect()
     // Cerrar session
-    req.session.destroy()
+    req.session = null
+    // req.session.destroy()
     
     res.redirect('/ftp')
   }

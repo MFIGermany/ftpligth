@@ -2,7 +2,8 @@ import cors from 'cors'
 
 const ACCEPTED_ORIGINS = [
   'http://localhost:3001',
-  'https://ftpligth-dev-jkpt.3.us-1.fl0.io'
+  'https://ftpligth-dev-jkpt.3.us-1.fl0.io',
+  '*'
 ]
 
 export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGINS } = {}) => cors({
