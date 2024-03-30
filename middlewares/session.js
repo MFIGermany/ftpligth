@@ -1,11 +1,11 @@
 import sessions from 'cookie-session'
 
-// creating 24 hours from milliseconds
-const oneDay = 1000 * 60 * 60 * 24;
+// creating 1 hour from milliseconds
+const oneHour = 1000 * 60 * 60 * 1;
 
 const Params = {
     keySecret: "MyKeySecrets",
-    timeExp: oneDay
+    timeExp: oneHour
 }
 
 export const sessionMiddleware = ({ params = Params } = {}) => sessions({
