@@ -25,7 +25,7 @@ export class FtpController {
     const result = await this.ftpClient.connect()
     
     if(result === true){
-      req.session.logged_in = 1
+      req.session.logged_in = true
       req.session.user = data.username
       res.status(200).json({ result: 1, message: 'Conexión establecida con éxito' })
     }
@@ -97,9 +97,16 @@ export class FtpController {
           for (let i = 0; i < req.files.length; i++) {
             let file = req.files[i]
             let remote_path = ftp_dir + '/' + file.originalname
-            await this.ftpClient.uploadFile(file.path, remote_path)
-            // Eliminar del servidor
-            await this.delete_file(file.path)
+
+            if (fs.existsSync(file.path)) {
+              console.log(`El archivo ${file.originalname} existe`)
+              await this.ftpClient.uploadFile(file.path, remote_path)
+              // Eliminar del servidor
+              await this.delete_file(file.path)
+            }
+            else {
+              console.error(`El archivo ${file.originalname} no existe`)
+            }
           }
         break
       }
